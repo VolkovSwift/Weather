@@ -29,8 +29,13 @@ class DailyTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
+    
+    func set(for item: DailyWeatherItem) {
+        dayOfWeekLabel.text = item.day.getDayOfWeek()
+        weatherIconImageView.image = UIImage(named: item.iconName)
+        maxMinTemperature.text = "\(item.temperatureText)°"
+        
+    }
 }

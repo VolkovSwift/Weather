@@ -21,6 +21,7 @@ class WeatherViewController: UIViewController {
     var currentWeather: CurrentWeather!
     var hourlyWeatherItems: [HourlyWeatherItem] = []
     var detailWeather: DetailWeather?
+    var dailyWeatherItems:[DailyWeatherItem] = []
     
     
     //    init(weatherData:WeatherData, currentWeather:CurrentWeather) {
@@ -41,7 +42,7 @@ class WeatherViewController: UIViewController {
         conditionLabel.text = "-"
         temperatureLabel.text = "-"
         dayOfWeekLabel.text = "-"
-        view.backgroundColor = .black
+        view.backgroundColor = .systemBlue
         
         registerDailyTableViewCells()
         self.hourlyCollectionView.dataSource = self
@@ -52,7 +53,6 @@ class WeatherViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //        hourlyCollectionView.reloadData()
     }
     
     func getWeatherData() {
@@ -64,10 +64,13 @@ class WeatherViewController: UIViewController {
                 self.currentWeather = WeatherBuilder.shared.getCurrentWeather(for: weatherData)
                 self.hourlyWeatherItems = WeatherBuilder.shared.getHourlyWeatherItem(for: weatherData)
                 self.detailWeather = WeatherBuilder.shared.getDetailsWeather(for: weatherData)
-                print(self.detailWeather?.titleValuPairs)
+                self.dailyWeatherItems = WeatherBuilder.shared.getDailyWeatherItems(for: weatherData)
+                //                print(self.detailWeather?.titleValuPairs)
+                print(self.dailyWeatherItems)
                 
                 DispatchQueue.main.async {
                     self.hourlyCollectionView.reloadData()
+                    self.dailyTableView.reloadData()
                     self.configureUI()
                 }
                 
@@ -104,13 +107,13 @@ extension WeatherViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HourlyCollectionViewCell.identifier, for: indexPath) as? HourlyCollectionViewCell else {
             return HourlyCollectionViewCell()
         }
         
         let item  = hourlyWeatherItems[indexPath.row]
         cell.set(for: item)
-        
         return cell
     }
     
@@ -127,7 +130,7 @@ extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
         }
         switch section {
         case .daily:
-            return 0
+            return dailyWeatherItems.count
         case .detail:
             return detailWeather?.totalRow ?? 0
         }
@@ -140,20 +143,27 @@ extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
         switch section {
         case .daily:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DailyTableViewCell.identifier, for: indexPath) as? DailyTableViewCell else { return DailyTableViewCell() }
-            //                let weatherItem = viewModel?.dailyWeatherItems.value?[indexPath.row] else {
-            //                return DailyTableViewCell()
-            //            }
-            //            cell.setWeatherData(from: weatherItem)
+            
+            let weatherItem = dailyWeatherItems[indexPath.row]
+            cell.set(for: weatherItem)
             return cell
         case .detail:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailsTableViewCell.identifier, for: indexPath) as? DetailsTableViewCell else {return DetailsTableViewCell() }
             
             // OPTIONAL TO SOLVE PROBLEM:
             let weatherPair = detailWeather!.getDetailWeather(at: indexPath.row)
-
+            
             cell.setWeatherData(using: weatherPair)
             return cell
         }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let section = DailyTableViewSection(sectionIndex: indexPath.section) else {
+            return DailyTableViewSection.defaultCellHeight
+        }
+        return section.cellHeight
     }
     
     

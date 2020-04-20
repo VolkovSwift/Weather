@@ -17,7 +17,7 @@ class DetailWeather {
         static let pressure = "pressure"
         static let seaLevelPressure = "sea level pressure"
         static let groundLevelPressure = "ground level pressure"
-        static let wind = "wind"
+        static let windSpeed = "wind speed"
         static let clouds = "clouds"
     }
     
@@ -27,12 +27,12 @@ class DetailWeather {
     }
     
     init(humidity: Int, regularPressure: Double, seaLevelPressure: Double, groundLevelPressure: Double, wind: Wind, clouds: Clouds) {
-        titleValuPairs.append((Constants.humidity, "\(humidity)"))
-        titleValuPairs.append((Constants.pressure, "\(regularPressure)"))
-        titleValuPairs.append((Constants.seaLevelPressure, "\(seaLevelPressure)"))
-        titleValuPairs.append((Constants.groundLevelPressure, "\(groundLevelPressure)"))
-        titleValuPairs.append((Constants.wind, "\(wind)"))
-        titleValuPairs.append((Constants.clouds, "\(clouds)"))
+        titleValuPairs.append((Constants.humidity, "\(humidity) %"))
+        titleValuPairs.append((Constants.pressure, "\(regularPressure) hPa"))
+        titleValuPairs.append((Constants.seaLevelPressure, "\(seaLevelPressure) hPa"))
+        titleValuPairs.append((Constants.groundLevelPressure, "\(groundLevelPressure) hPa"))
+        titleValuPairs.append((Constants.windSpeed, "\(wind.speed) m/s"))
+        titleValuPairs.append((Constants.clouds, "\(clouds.all) %"))
     }
     
     func getDetailWeather(at rowIndex: Int) -> DetailWeatherAtRow {

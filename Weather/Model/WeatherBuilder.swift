@@ -40,13 +40,32 @@ class WeatherBuilder {
     }
     
     
-//    func getDailyWeatherItem(for data: WeatherData) -> [DailyWeatherItem] {
-//        var dailyWeatherItems: [DailyWeatherItem] = []
-//        let dateConverter = DateConverter(timezone: data.city.timezone)
-//        
-//        
-//        return dailyWeatherItems
-//    }
+    func getDailyWeatherItems(for data: WeatherData) -> [DailyWeatherItem] {
+        let dateConverter = DateConverter(timezone: data.city.timezone)
+        var minTemperature = [String: Double]()
+        var maxTemperature = [String: Double]()
+        var firstDate = [String: Date]()
+        var firstIcon = [String: String]()
+        for item in data.list {
+            let dayOfWeek = dateConverter.convertDateFromUTC(string: item.dtTxt).getDayOfWeek()
+            minTemperature.merge([dayOfWeek: item.main.tempMin]) { return $0 > $1 ? $1 : $0 }
+            maxTemperature.merge([dayOfWeek: item.main.tempMax]) { return $0 > $1 ? $0 : $1 }
+            firstDate.merge([dayOfWeek: dateConverter.convertDateFromUTC(string: item.dtTxt)]) { (first, second) in first }
+            firstIcon.merge([dayOfWeek: item.weather[0].icon]) { (first, second) in first }
+        }
+        var dailyWeatherItems = [DailyWeatherItem]()
+        for key in minTemperature.keys {
+            let dailyWeatherItem = DailyWeatherItem(day: firstDate[key]!, iconName: firstIcon[key]!, maxTemperature: maxTemperature[key]!, minTemperature: minTemperature[key]!)
+            dailyWeatherItems.append(dailyWeatherItem)
+        }
+//        return dailyWeatherItems.sorted(by: { (first, second) in
+//            first.date < second.date
+//        })
+        return dailyWeatherItems.sorted(by: {(first, second) in
+            first.day < second.day
+        })
+        
+    }
     
     
     func getDetailsWeather(for data: WeatherData) -> DetailWeather {

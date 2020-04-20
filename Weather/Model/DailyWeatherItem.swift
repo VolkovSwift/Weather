@@ -10,19 +10,20 @@ import UIKit
 
 struct DailyWeatherItem {
     
-    var day: String
+    var day: Date
     var iconName: String
-    var tempMax: Double
-    var tempMin: Double
+    var maxTemperature: Double
+    var minTemperature: Double
     
     
-//    var temperatureText: String {
-//        return "\(tempMax)  \(tempMin)"
+    var temperatureText: String {
+        return "\(maxTemperature)  \(minTemperature)"
     }
-
-//    init(iconName: String, tempMax: Double, tempMin: Double, dateText: String) {
-//        self.iconName = iconName
-//        self.tempMax = tempMax
-//        self.tempMin = tempMin
-//        self .dateText = dateText
-//    }
+    
+    //    init(iconName: String, tempMax: Double, tempMin: Double, dateText: String) {
+    //        self.iconName = iconName
+    //        self.tempMax = tempMax
+    //        self.tempMin = tempMin
+    //        self .dateText = dateText
+    //    }
+}
