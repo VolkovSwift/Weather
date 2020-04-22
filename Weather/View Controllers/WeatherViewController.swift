@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class WeatherViewController: UIViewController {
     
@@ -17,56 +18,73 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var hourlyCollectionView: UICollectionView!
     @IBOutlet weak var dailyTableView: UITableView!
     
+    var locationManager = CLLocationManager()
+//    var currentLocation: CLLocation?
+    var coordinatesForCurrentCity: CLLocationCoordinate2D?
+    
     var weatherData:WeatherData?
-    var currentWeather: CurrentWeather!
+    var currentWeather:CurrentWeather!
     var hourlyWeatherItems: [HourlyWeatherItem] = []
-    var detailWeather: DetailWeather?
+    var detailsWeather: DetailsWeather!
     var dailyWeatherItems:[DailyWeatherItem] = []
+//    var cityName = ""
     
     
-    //    init(weatherData:WeatherData, currentWeather:CurrentWeather) {
-    //        self.weatherData = weatherData
-    //        self.currentWeather = currentWeather
-    //        super.init(nibName: nil, bundle: nil)
-    //    }
-    //
-    //    public required init?(coder aDecoder: NSCoder) {
-    //        super.init(coder: aDecoder)
-    //        self.weatherData = nil
-    //        self.currentWeather = nil
-    //    }
+//        init(currentWeather:CurrentWeather) {
+//            self.currentWeather = currentWeather
+//            super.init(nibName: nil, bundle: nil)
+//        }
+//
+//        public required init?(coder aDecoder: NSCoder) {
+//            super.init(coder: aDecoder)
+//            self.currentWeather = nil
+//        }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cityLabel.text = "-"
-        conditionLabel.text = "-"
-        temperatureLabel.text = "-"
-        dayOfWeekLabel.text = "-"
+        
+        hourlyCollectionView.dataSource = self
+        dailyTableView.dataSource = self
+        dailyTableView.delegate = self
+        locationManager.delegate = self
+        
+        clearWeather()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+//        print(coordinatesForCurrentCity)
+        
         view.backgroundColor = .systemBlue
         
         registerDailyTableViewCells()
-        self.hourlyCollectionView.dataSource = self
-        dailyTableView.dataSource = self
-        dailyTableView.delegate = self
-        getWeatherData()
+
+//        getWeatherData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
-    func getWeatherData() {
-        NetworkManager.shared.getWeather() { [unowned self] result in
+    
+    func clearWeather() {
+        cityLabel.text = "-"
+        conditionLabel.text = "-"
+        temperatureLabel.text = "-"
+        dayOfWeekLabel.text = "-"
+    }
+    
+    
+    func getWeatherData(cityName: String) {
+        NetworkManager.shared.getWeather(city: cityName) { [unowned self] result in
             
             switch result {
             case .success(let weatherData):
                 self.weatherData = weatherData
                 self.currentWeather = WeatherBuilder.shared.getCurrentWeather(for: weatherData)
                 self.hourlyWeatherItems = WeatherBuilder.shared.getHourlyWeatherItem(for: weatherData)
-                self.detailWeather = WeatherBuilder.shared.getDetailsWeather(for: weatherData)
+                self.detailsWeather = WeatherBuilder.shared.getDetailsWeather(for: weatherData)
                 self.dailyWeatherItems = WeatherBuilder.shared.getDailyWeatherItems(for: weatherData)
-                //                print(self.detailWeather?.titleValuPairs)
-                print(self.dailyWeatherItems)
+//                print(self.hourlyWeatherItems)
                 
                 DispatchQueue.main.async {
                     self.hourlyCollectionView.reloadData()
@@ -86,7 +104,7 @@ class WeatherViewController: UIViewController {
         cityLabel.text = currentWeather.cityName
         conditionLabel.text = currentWeather.description
         temperatureLabel.text = currentWeather.temperature + "°С"
-        dayOfWeekLabel.text = currentWeather.dayOfWeek.getDayOfWeek()
+        dayOfWeekLabel.text = currentWeather.dayOfWeek
         
     }
     
@@ -132,7 +150,7 @@ extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
         case .daily:
             return dailyWeatherItems.count
         case .detail:
-            return detailWeather?.totalRow ?? 0
+            return detailsWeather?.totalRow ?? 0
         }
     }
     
@@ -149,9 +167,10 @@ extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
         case .detail:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailsTableViewCell.identifier, for: indexPath) as? DetailsTableViewCell else {return DetailsTableViewCell() }
-            
-            // OPTIONAL TO SOLVE PROBLEM:
-            let weatherPair = detailWeather!.getDetailWeather(at: indexPath.row)
+            cell.contentView.backgroundColor = .clear
+            cell.backgroundColor = .clear
+
+            let weatherPair = detailsWeather.getDetailWeather(at: indexPath.row)
             
             cell.setWeatherData(using: weatherPair)
             return cell
@@ -165,6 +184,76 @@ extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
         }
         return section.cellHeight
     }
+}
+
+//MARK: - CLLocationManagerDelegate
+
+extension WeatherViewController: CLLocationManagerDelegate {
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+
+        let currentLocation = locations.last!
+        
+        if (currentLocation.horizontalAccuracy > 0) {
+                    locationManager.stopUpdatingLocation()
+
+            CLGeocoder().reverseGeocodeLocation(currentLocation) { (placemark, error) in
+                
+                if error == nil, let placemark = placemark, !placemark.isEmpty {
+                    guard let cityName = placemark[0].locality else {return}
+                    self.getWeatherData(cityName: cityName)
+                    
+                }
+            }
+        }
+        
+        
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error")
+    }
+    
+    
+//    func enableBasicLocationServices() {
+//        locationManager.delegate = self
+//        switch CLLocationManager.authorizationStatus() {
+//        case .notDetermined:
+//            locationManager.requestWhenInUseAuthorization()
+//            break
+//        case .restricted, .denied:
+//            clearWeather()
+//            break
+//        case .authorizedWhenInUse, .authorizedAlways:
+//            //enable location features
+//            //getWeather()
+//            break
+//        }
+//    }
+    
+//    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+//        switch status {
+//        case .notDetermined, .authorizedAlways:
+//            locationManager.requestWhenInUseAuthorization()
+//            break
+//        case .restricted, .denied:
+//            clearWeather()
+//            break
+//        case .authorizedWhenInUse:
+//            //getWeather()
+//            break
+//        }
+//    }
+    
+//    func getWeather() {
+//        if ( CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways) {
+//
+//            currentLocation = locationManager.location
+//            print(currentLocation)
+//        } else {
+//            clearWeather()
+//            return
+//        }
+//    }
     
 }

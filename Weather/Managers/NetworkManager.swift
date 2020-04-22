@@ -11,11 +11,16 @@ import UIKit
 
 class NetworkManager {
     static let shared = NetworkManager()
-    private let baseURL = "http://api.openweathermap.org/data/2.5/forecast?q=Minsk&appid=e570eb3a7803219ec896eb79d15dad73&units=metric"
+//    private let baseURL = "http://api.openweathermap.org/data/2.5/forecast?q=Minsk&appid=e570eb3a7803219ec896eb79d15dad73&units=metric"
+    //    private let baseURL = "http://api.openweathermap.org/data/2.5/forecast?lat=53.9&lon=27.56667&appid=e570eb3a7803219ec896eb79d15dad73&units=metric"
     
     private init() {}
     
-    func getWeather(handler: @escaping(Result<WeatherData, ErrorMessage>) -> Void) {
+    //    func weatherFor(geo: CLLocationCoordinate2D)
+    
+    func getWeather(city:String, handler: @escaping(Result<WeatherData, ErrorMessage>) -> Void) {
+        
+        let baseURL = "http://api.openweathermap.org/data/2.5/forecast?q=\(city)&appid=e570eb3a7803219ec896eb79d15dad73&units=metric"
         
         guard let url = URL(string: baseURL) else {
             handler(.failure(.invalidURL))

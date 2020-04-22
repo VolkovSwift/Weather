@@ -8,14 +8,14 @@
 
 import UIKit
 
-class DailyTableViewCell: UITableViewCell {
+final class DailyTableViewCell: UITableViewCell {
 
     static let identifier = "DailyTableViewCell"
     static let height:CGFloat = 44
     
-    @IBOutlet weak var dayOfWeekLabel: UILabel!
-    @IBOutlet weak var weatherIconImageView: UIImageView!
-    @IBOutlet weak var maxMinTemperature: UILabel!
+    @IBOutlet private weak var dayOfWeekLabel: UILabel!
+    @IBOutlet private weak var weatherIconImageView: UIImageView!
+    @IBOutlet private weak var maxMinTemperature: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,9 +33,9 @@ class DailyTableViewCell: UITableViewCell {
     
     
     func set(for item: DailyWeatherItem) {
-        dayOfWeekLabel.text = item.day.getDayOfWeek()
+        dayOfWeekLabel.text = item.dayOfWeek.getDayOfWeek()
         weatherIconImageView.image = UIImage(named: item.iconName)
-        maxMinTemperature.text = "\(item.temperatureText)°"
+        maxMinTemperature.text = "\(item.temperatureText)"
         
     }
 }

@@ -18,7 +18,8 @@ class WeatherBuilder {
         let firstListItem = data.list[0]
         let dateConverter = DateConverter(timezone: data.city.timezone)
         let convertedDate = dateConverter.convertDateFromUTC(string: firstListItem.dtTxt)
-        return CurrentWeather(cityName: data.city.name, description: weather.description, temperature: String(Int(firstListItem.main.temp)), dayOfWeek: convertedDate)
+        let dayOfWeek = convertedDate.getDayOfWeek()
+        return CurrentWeather(cityName: data.city.name, description: weather.description, temperature: String(Int(firstListItem.main.temp)), dayOfWeek: dayOfWeek)
     }
     
     
@@ -55,21 +56,21 @@ class WeatherBuilder {
         }
         var dailyWeatherItems = [DailyWeatherItem]()
         for key in minTemperature.keys {
-            let dailyWeatherItem = DailyWeatherItem(day: firstDate[key]!, iconName: firstIcon[key]!, maxTemperature: maxTemperature[key]!, minTemperature: minTemperature[key]!)
+            let dailyWeatherItem = DailyWeatherItem(dayOfWeek: firstDate[key]!, iconName: firstIcon[key]!, maxTemperature: Int(maxTemperature[key]!), minTemperature: Int(minTemperature[key]!))
             dailyWeatherItems.append(dailyWeatherItem)
         }
-//        return dailyWeatherItems.sorted(by: { (first, second) in
-//            first.date < second.date
-//        })
-        return dailyWeatherItems.sorted(by: {(first, second) in
-            first.day < second.day
+
+        dailyWeatherItems.sort(by: {(first, second) in
+            first.dayOfWeek < second.dayOfWeek
         })
-        
+        dailyWeatherItems.remove(at: 0)
+        return dailyWeatherItems
     }
     
     
-    func getDetailsWeather(for data: WeatherData) -> DetailWeather {
+    
+    func getDetailsWeather(for data: WeatherData) -> DetailsWeather {
         let firstItem = data.list[0].main
-        return DetailWeather(humidity: firstItem.humidity, regularPressure: firstItem.pressure, seaLevelPressure: firstItem.seaLevel, groundLevelPressure: firstItem.grndLevel, wind: data.list[0].wind, clouds: data.list[0].clouds)
+        return DetailsWeather(humidity: firstItem.humidity, regularPressure: firstItem.pressure, seaLevelPressure: firstItem.seaLevel, groundLevelPressure: firstItem.grndLevel, wind: data.list[0].wind, clouds: data.list[0].clouds)
     }
 }

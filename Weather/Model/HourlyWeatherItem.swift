@@ -9,7 +9,7 @@
 import UIKit
 
 struct HourlyWeatherItem {
-    var hour:String
+    var hour: String
     var icon: UIImage?
     var temperature: String
 }

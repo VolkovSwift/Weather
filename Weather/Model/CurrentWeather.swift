@@ -12,5 +12,12 @@ struct CurrentWeather {
     var cityName:String
     var description:String
     var temperature: String
-    var dayOfWeek: Date
+    var dayOfWeek: String
+    
+    init(cityName:String, description: String, temperature:String, dayOfWeek:String) {
+        self.cityName = cityName
+        self.description = description
+        self.temperature = temperature
+        self.dayOfWeek = dayOfWeek
+    }
 }

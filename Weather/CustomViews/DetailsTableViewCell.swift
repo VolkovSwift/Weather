@@ -8,15 +8,15 @@
 
 import UIKit
 
-class DetailsTableViewCell: UITableViewCell {
+final class DetailsTableViewCell: UITableViewCell {
     
     static let identifier = "DetailsTableViewCell"
     static let height: CGFloat = 90
     
-    @IBOutlet weak var leftTitleLabel: UILabel!
-    @IBOutlet weak var leftValueLabel: UILabel!
-    @IBOutlet weak var rightTitleLabel: UILabel!
-    @IBOutlet weak var rightValueLabel: UILabel!
+    @IBOutlet private weak var leftTitleLabel: UILabel!
+    @IBOutlet private weak var leftValueLabel: UILabel!
+    @IBOutlet private weak var rightTitleLabel: UILabel!
+    @IBOutlet private weak var rightValueLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,7 +32,7 @@ class DetailsTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setWeatherData(using weatherAtRow: DetailWeather.DetailWeatherAtRow) {
+    func setWeatherData(using weatherAtRow: DetailsWeather.DetailWeatherAtRow) {
         let (left, right) = weatherAtRow
         self.leftTitleLabel.text = left.title
         self.leftValueLabel.text = left.value
