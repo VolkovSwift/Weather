@@ -11,14 +11,23 @@ import MapKit
 
 class SearchVC: UIViewController {
     
+    
+    //MARK: - Properties
+    
     static let identifier = "SearchViewController"
     private let searchTableCellIdentifier = "searchResultCell"
     private var searchCompleter = MKLocalSearchCompleter()
     private var searchResults = [MKLocalSearchCompletion]()
+    var locationNames = LocationNames()
+    
+    
+    //MARK: - IBOutlets
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchResultTable: UITableView!
     
+    
+    //MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +37,14 @@ class SearchVC: UIViewController {
     }
     
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print(locationNames.names.count)
+    }
+    
+    
+    //MARK: - Main Methods
+    
     private func setUpSearchBar() {
         searchBar.delegate = self
         searchBar.showsCancelButton = true
@@ -36,7 +53,7 @@ class SearchVC: UIViewController {
     
     private func setUpSearchCompleter() {
         searchCompleter.delegate  = self
-        searchCompleter.filterType = .locationsOnly
+        //        searchCompleter.filterType = .locationsOnly
     }
     
     private func setUpSearchResultTable() {
@@ -105,10 +122,11 @@ extension SearchVC:UITableViewDataSource, UITableViewDelegate {
             guard let placeMark = response?.mapItems[0].placemark else {
                 return
             }
-            let coordinate = placeMark.coordinate
+            //            let coordinate = placeMark.coordinate
             let locationName = "\(placeMark.locality ?? selectedResult.title)"
-            print(locationName)
-            //TODO
+//            let convertedName = locationName.replacingOccurrences(of: " ", with: "+")
+//            self.locationNames.names.append(convertedName)
+            PersistenceManager.save(locationNames: self.locationNames)
             self.dismiss(animated: true)
         }
     }

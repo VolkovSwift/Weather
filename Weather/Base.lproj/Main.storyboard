@@ -48,7 +48,7 @@
                                             <color key="titleColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="iao-ky-SwM" kind="showDetail" id="Xg4-3D-ECs"/>
+                                            <segue destination="iao-ky-SwM" kind="modal" identifier="locationListVC" modalPresentationStyle="fullScreen" id="Xg4-3D-ECs"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -190,17 +190,36 @@
             <objects>
                 <tableViewController id="Fvv-Pn-d9d" customClass="LocationListVC" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="lyZ-ph-3lv">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationListTableViewCell" id="J3I-Tc-Hu1">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationListTableViewCell" id="J3I-Tc-Hu1" customClass="LocationListTableViewCell" customModule="Weather" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="J3I-Tc-Hu1" id="NUi-bt-jny">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WDy-Kl-f7N">
+                                            <rect key="frame" x="25" y="11" width="100" height="22"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="OJq-qH-SxH"/>
+                                                <constraint firstAttribute="height" constant="22" id="qAJ-Sl-PDi"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="WDy-Kl-f7N" firstAttribute="leading" secondItem="NUi-bt-jny" secondAttribute="leadingMargin" constant="5" id="TMX-0B-IAR"/>
+                                        <constraint firstItem="WDy-Kl-f7N" firstAttribute="centerY" secondItem="NUi-bt-jny" secondAttribute="centerY" id="gub-To-cwP"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="locationNameLabel" destination="WDy-Kl-f7N" id="bAj-B2-L3C"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -211,7 +230,7 @@
                     <navigationItem key="navigationItem" title="Root View Controller" id="dsC-If-w3q">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="W5w-5g-moa">
                             <connections>
-                                <segue destination="3rX-rq-DiZ" kind="show" id="e6I-dV-hTy"/>
+                                <segue destination="3rX-rq-DiZ" kind="modal" identifier="searchVC" modalPresentationStyle="fullScreen" id="uz3-yn-puz"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -225,15 +244,15 @@
             <objects>
                 <viewController id="3rX-rq-DiZ" customClass="SearchVC" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zGd-eK-1Kj">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="J7g-1o-6OV">
-                                <rect key="frame" x="0.0" y="55.999999999999993" width="414" height="84.333333333333314"/>
+                                <rect key="frame" x="0.0" y="44.000000000000007" width="414" height="89.666666666666686"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="R9O-pq-qdF">
-                                <rect key="frame" x="0.0" y="134.33333333333331" width="414" height="673.66666666666674"/>
+                                <rect key="frame" x="0.0" y="145.33333333333331" width="414" height="716.66666666666674"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResultCell" textLabel="F2v-av-g4R" style="IBUITableViewCellStyleDefault" id="isw-La-FGw" customClass="LocationListTableViewCell" customModule="Weather" customModuleProvider="target">
@@ -282,17 +301,17 @@
         <!--Navigation Controller-->
         <scene sceneID="f0o-G3-k8U">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZsL-Xz-gtk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController id="iao-ky-SwM" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="NFD-EE-EgF"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iu1-Hl-g1U">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
                         <segue destination="Fvv-Pn-d9d" kind="relationship" relationship="rootViewController" id="lhW-jB-7nR"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZsL-Xz-gtk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1072" y="117"/>
         </scene>

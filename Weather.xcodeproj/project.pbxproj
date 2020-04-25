@@ -16,6 +16,9 @@
 		CE38B357244A06EA00210156 /* WeatherBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE38B356244A06EA00210156 /* WeatherBuilder.swift */; };
 		CE38B35A244A081000210156 /* Date + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE38B359244A081000210156 /* Date + ext.swift */; };
 		CE38B35C244A2D1500210156 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE38B35B244A2D1500210156 /* CurrentWeather.swift */; };
+		CE45D1F42451EE0B00CE0C64 /* SearchViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE45D1F32451EE0B00CE0C64 /* SearchViewDelegate.swift */; };
+		CE45D1F62451F00D00CE0C64 /* LocationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE45D1F52451F00D00CE0C64 /* LocationNames.swift */; };
+		CE45D1F82451FF5800CE0C64 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE45D1F72451FF5800CE0C64 /* PersistenceManager.swift */; };
 		CE5FD89224509628005AAC88 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE5FD89124509628005AAC88 /* CoreLocation.framework */; };
 		CE7AB6EA2448C02800ACA7C6 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7AB6E92448C02800ACA7C6 /* WeatherData.swift */; };
 		CE7AB6ED2448C60D00ACA7C6 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7AB6EC2448C60D00ACA7C6 /* NetworkManager.swift */; };
@@ -45,6 +48,9 @@
 		CE38B356244A06EA00210156 /* WeatherBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherBuilder.swift; sourceTree = "<group>"; };
 		CE38B359244A081000210156 /* Date + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + ext.swift"; sourceTree = "<group>"; };
 		CE38B35B244A2D1500210156 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
+		CE45D1F32451EE0B00CE0C64 /* SearchViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewDelegate.swift; sourceTree = "<group>"; };
+		CE45D1F52451F00D00CE0C64 /* LocationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationNames.swift; sourceTree = "<group>"; };
+		CE45D1F72451FF5800CE0C64 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		CE5FD89124509628005AAC88 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		CE7AB6E92448C02800ACA7C6 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		CE7AB6EC2448C60D00ACA7C6 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -112,6 +118,7 @@
 				CE38B35B244A2D1500210156 /* CurrentWeather.swift */,
 				CEDE4B18244C89610066871A /* HourlyWeatherItem.swift */,
 				CEDE4B1A244C9E800066871A /* DetailsWeather.swift */,
+				CE45D1F52451F00D00CE0C64 /* LocationNames.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -121,6 +128,7 @@
 			children = (
 				CE38B356244A06EA00210156 /* WeatherBuilder.swift */,
 				CE7AB6EC2448C60D00ACA7C6 /* NetworkManager.swift */,
+				CE45D1F72451FF5800CE0C64 /* PersistenceManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -167,6 +175,7 @@
 				CED6266C24476BB200181CCE /* Assets.xcassets */,
 				CED6266E24476BB200181CCE /* LaunchScreen.storyboard */,
 				CED6267124476BB200181CCE /* Info.plist */,
+				CE45D1F32451EE0B00CE0C64 /* SearchViewDelegate.swift */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -271,9 +280,12 @@
 				CE7AB6F02448C74500ACA7C6 /* ErrorMessage.swift in Sources */,
 				CEDE4B19244C89610066871A /* HourlyWeatherItem.swift in Sources */,
 				CE15D901244F4D5300C832FC /* LocationListVC.swift in Sources */,
+				CE45D1F42451EE0B00CE0C64 /* SearchViewDelegate.swift in Sources */,
+				CE45D1F62451F00D00CE0C64 /* LocationNames.swift in Sources */,
 				CED6266824476BAD00181CCE /* WeatherViewController.swift in Sources */,
 				CED70BD2244780570057B2E3 /* DailyTableViewCell.swift in Sources */,
 				CE38B357244A06EA00210156 /* WeatherBuilder.swift in Sources */,
+				CE45D1F82451FF5800CE0C64 /* PersistenceManager.swift in Sources */,
 				CE15D903244F4D7700C832FC /* SearchVC.swift in Sources */,
 				CE15D905244F4F3F00C832FC /* LocationListTableViewCell.swift in Sources */,
 				CED6266424476BAD00181CCE /* AppDelegate.swift in Sources */,
