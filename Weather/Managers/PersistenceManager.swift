@@ -14,29 +14,29 @@ enum PersistenceManager {
     static private let defaults = UserDefaults.standard
     
     private enum Keys {
-        static let locationNames = "locationNames"
+        static let locationsData = "locationsData"
     }
     
-    static func retrieveLocationNames(completed: @escaping (Result<LocationNames, ErrorMessage>) -> Void) {
-        guard let locationNamesData = defaults.object(forKey: Keys.locationNames) as? Data else {
+    static func retrieveLocations(completed: @escaping (Result<LocationsData, ErrorMessage>) -> Void) {
+        guard let locationsData = defaults.object(forKey: Keys.locationsData) as? Data else {
             completed(.failure(.unableToRetrieve))
             return
         }
         
         do {
             let decoder = JSONDecoder()
-            let locationNames = try decoder.decode(LocationNames.self, from: locationNamesData)
-            completed(.success(locationNames))
+            let locationsData = try decoder.decode(LocationsData.self, from: locationsData)
+            completed(.success(locationsData))
         } catch {
             completed(.failure(.unableToRetrieve))
         }
     }
     
-    static func save(locationNames: LocationNames) {
+    static func save(locationsData: LocationsData) {
         do {
             let encoder = JSONEncoder()
-            let encodedNames = try encoder.encode(locationNames)
-            defaults.set(encodedNames, forKey: Keys.locationNames)
+            let encodedLocationsData = try encoder.encode(locationsData)
+            defaults.set(encodedLocationsData, forKey: Keys.locationsData)
         } catch {
             print(error)
         }

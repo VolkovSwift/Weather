@@ -14,4 +14,6 @@ enum ErrorMessage:String, Error {
     case invalidResponse = "Invalid response from the server. Please try again."
     case invalidData = "The data received from the server was invalid. Please try again."
     case unableToRetrieve = "Sorry, I can't retrieve location names. Please try again"
+    case locationManagerRequestFail  = "Location Error: Fail to get current location"
+    case localSearchCompleterFail = "Local search completer is unable to generate a list of search results"
 }

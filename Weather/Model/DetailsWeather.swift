@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DetailsWeather {
+struct DetailsWeather {
     typealias DetailWeatherAtRow = (TitleValuePair, TitleValuePair)
     typealias TitleValuePair = (title: String, value: String)
     

@@ -17,7 +17,7 @@ struct CurrentWeather {
     init(cityName:String, description: String, temperature:String, dayOfWeek:String) {
         self.cityName = cityName
         self.description = description
-        self.temperature = temperature
+        self.temperature = "\(temperature) °С"
         self.dayOfWeek = dayOfWeek
     }
 }

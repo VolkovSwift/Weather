@@ -18,9 +18,11 @@ class NetworkManager {
     
     //    func weatherFor(geo: CLLocationCoordinate2D)
     
-    func getWeather(city:String, handler: @escaping(Result<WeatherData, ErrorMessage>) -> Void) {
+    func getWeather(location: Location, handler: @escaping(Result<WeatherData, ErrorMessage>) -> Void) {
         
-        let baseURL = "http://api.openweathermap.org/data/2.5/forecast?q=\(city)&appid=e570eb3a7803219ec896eb79d15dad73&units=metric"
+//        let baseURL = "http://api.openweathermap.org/data/2.5/forecast?q=\(city)&appid=e570eb3a7803219ec896eb79d15dad73&units=metric"
+        let baseURL = "http://api.openweathermap.org/data/2.5/forecast?lat=\(location.latitude)&lon=\(location.longitude)&appid=e570eb3a7803219ec896eb79d15dad73&units=metric"
+//        let baseURL = "http://api.openweathermap.org/data/2.5/forecast?lat=53.9&lon=27.56667&appid=e570eb3a7803219ec896eb79d15dad73&units=metric"
         
         guard let url = URL(string: baseURL) else {
             handler(.failure(.invalidURL))

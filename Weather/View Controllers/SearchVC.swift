@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class SearchVC: UIViewController {
+final class SearchVC: UIViewController {
     
     
     //MARK: - Properties
@@ -18,7 +18,7 @@ class SearchVC: UIViewController {
     private let searchTableCellIdentifier = "searchResultCell"
     private var searchCompleter = MKLocalSearchCompleter()
     private var searchResults = [MKLocalSearchCompletion]()
-    var locationNames = LocationNames()
+    var locationsData = LocationsData()
     
     
     //MARK: - IBOutlets
@@ -31,36 +31,33 @@ class SearchVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpSearchBar()
-        setUpSearchCompleter()
-        setUpSearchResultTable()
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print(locationNames.names.count)
+        configureSearchBar()
+        configureSearchCompleter()
+        configureSearchResultTable()
     }
     
     
     //MARK: - Main Methods
     
-    private func setUpSearchBar() {
+    private func configureSearchBar() {
         searchBar.delegate = self
         searchBar.showsCancelButton = true
         searchBar.becomeFirstResponder()
     }
     
-    private func setUpSearchCompleter() {
+    
+    private func configureSearchCompleter() {
         searchCompleter.delegate  = self
-        //        searchCompleter.filterType = .locationsOnly
+        searchCompleter.resultTypes = .address
     }
     
-    private func setUpSearchResultTable() {
+    
+    private func configureSearchResultTable() {
         searchResultTable.dataSource = self
         searchResultTable.delegate = self
     }
 }
+
 
 //MARK: - UISearchBarDelegate
 
@@ -79,17 +76,13 @@ extension SearchVC: UISearchBarDelegate {
 }
 
 
-//MARK: - UITableViewDataSource & UITableViewDelegate
+//MARK: - MKLocalSearchCompleterDelegate
 
 extension SearchVC: MKLocalSearchCompleterDelegate {
     
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         searchResults = completer.results
         searchResultTable.reloadData()
-    }
-    
-    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-        print("TODO")
     }
 }
 
@@ -102,6 +95,7 @@ extension SearchVC:UITableViewDataSource, UITableViewDelegate {
         return searchResults.count
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = searchResultTable.dequeueReusableCell(withIdentifier: searchTableCellIdentifier, for: indexPath)
         let searchResult = searchResults[indexPath.row]
@@ -109,24 +103,25 @@ extension SearchVC:UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedResult = searchResults[indexPath.row]
         let searchRequest = MKLocalSearch.Request(completion: selectedResult)
         let search = MKLocalSearch(request: searchRequest)
-        search.start { (response, error) in
+        search.start { [unowned self] (response, error) in
             guard error == nil else {
-                print("Local Search Request Error : No corresoponding location data for user selection")
+                self.presentAlert(message: ErrorMessage.localSearchCompleterFail.rawValue)
                 return
             }
             
             guard let placeMark = response?.mapItems[0].placemark else {
                 return
             }
-            //            let coordinate = placeMark.coordinate
-            let locationName = "\(placeMark.locality ?? selectedResult.title)"
-//            let convertedName = locationName.replacingOccurrences(of: " ", with: "+")
-//            self.locationNames.names.append(convertedName)
-            PersistenceManager.save(locationNames: self.locationNames)
+            
+            let newLocation:Location = Location(cityName: placeMark.locality ?? selectedResult.title, latitude: placeMark.coordinate.latitude, longitude: placeMark.coordinate.longitude)
+            
+            self.locationsData.locations.append(newLocation)
+            PersistenceManager.save(locationsData: self.locationsData)
             self.dismiss(animated: true)
         }
     }

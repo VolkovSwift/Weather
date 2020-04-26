@@ -9,5 +9,5 @@
 import Foundation
 
 protocol LocationListViewDelegate {
-    func userDidSelectLocation(locationName: String)
+    func userDidSelectLocation(location: Location)
 }
