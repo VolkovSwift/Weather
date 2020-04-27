@@ -22,15 +22,14 @@ final class DetailsTableViewCell: UITableViewCell {
         super.awakeFromNib()
         selectionStyle = .none
         backgroundColor = .clear
+        leftTitleLabel.textColor = .lightGray
+        leftValueLabel.textColor = .white
+        rightTitleLabel.textColor = .lightGray
+        rightValueLabel.textColor = .white
         leftTitleLabel.adjustsFontSizeToFitWidth = true
         rightTitleLabel.adjustsFontSizeToFitWidth = true
     }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
+
     
     func setWeatherData(using weatherAtRow: DetailsWeather.DetailWeatherAtRow) {
         let (left, right) = weatherAtRow

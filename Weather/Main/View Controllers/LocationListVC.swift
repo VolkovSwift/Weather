@@ -10,13 +10,11 @@ import UIKit
 
 final class LocationListVC: UITableViewController {
     
-    
     //MARK: - Properties
     
-    static let identifier = "LocationListViewController"
-    var delegate:LocationListViewDelegate?
+    weak var delegate:LocationListViewDelegate?
     var locationsData = LocationsData()
-
+    
     
     
     //MARK: - View Controller Lifecycle
@@ -46,7 +44,7 @@ final class LocationListVC: UITableViewController {
     
     private func configureViewController() {
         title = "Locations"
-//        view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
+        //        view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -60,9 +58,9 @@ final class LocationListVC: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: LocationListTableViewCell.identifier, for: indexPath) as! LocationListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: LocationListTableViewCell.self), for: indexPath) as! LocationListTableViewCell
         let currentLocation = locationsData.locations[indexPath.row]
-        cell.locationNameLabel.text = currentLocation.cityName
+        cell.set(location: currentLocation)
         return cell
     }
     

@@ -11,10 +11,8 @@ import MapKit
 
 final class SearchVC: UIViewController {
     
-    
     //MARK: - Properties
     
-    static let identifier = "SearchViewController"
     private let searchTableCellIdentifier = "searchResultCell"
     private var searchCompleter = MKLocalSearchCompleter()
     private var searchResults = [MKLocalSearchCompletion]()
@@ -62,6 +60,7 @@ final class SearchVC: UIViewController {
 //MARK: - UISearchBarDelegate
 
 extension SearchVC: UISearchBarDelegate {
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText == "" {
             searchResults.removeAll()
@@ -69,6 +68,7 @@ extension SearchVC: UISearchBarDelegate {
         }
         searchCompleter.queryFragment = searchText
     }
+    
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.dismiss(animated: true)
@@ -120,7 +120,10 @@ extension SearchVC:UITableViewDataSource, UITableViewDelegate {
             
             let newLocation:Location = Location(cityName: placeMark.locality ?? selectedResult.title, latitude: placeMark.coordinate.latitude, longitude: placeMark.coordinate.longitude)
             
-            self.locationsData.locations.append(newLocation)
+            if !self.locationsData.locations.contains(where: {$0.cityName == newLocation.cityName}) {
+                self.locationsData.locations.append(newLocation)
+            }
+            
             PersistenceManager.save(locationsData: self.locationsData)
             self.dismiss(animated: true)
         }

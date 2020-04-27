@@ -32,7 +32,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="HpE-TK-Th5" firstAttribute="leading" secondItem="M20-0E-9dt" secondAttribute="leading" id="ANv-r6-7iJ"/>
                             <constraint firstItem="M20-0E-9dt" firstAttribute="leading" secondItem="F81-Kp-vek" secondAttribute="leading" constant="8" id="FBQ-Xx-gZW"/>
@@ -59,7 +59,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="1ak-ty-OFq" secondAttribute="trailing" constant="8" id="YLw-BY-Est"/>
                             <constraint firstItem="1ak-ty-OFq" firstAttribute="leading" secondItem="7iZ-h2-NOh" secondAttribute="leading" constant="16" id="gd9-Gr-XaP"/>

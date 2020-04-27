@@ -1,5 +1,5 @@
 //
-//  LocationNames.swift
+//  SearchViewDelegate.swift
 //  Weather
 //
 //  Created by user on 4/23/20.
@@ -8,7 +8,6 @@
 
 import Foundation
 
-
-final class LocationNames: Codable {
-    var names:[String] = []
+protocol LocationListViewDelegate: AnyObject {
+    func userDidSelectLocation(location: Location)
 }

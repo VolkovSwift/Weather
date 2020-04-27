@@ -13,12 +13,11 @@ final class HourlyCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var hourLabel: UILabel!
     @IBOutlet private weak var weatherIconImageView: UIImageView!
     @IBOutlet private weak var temperatureLabel: UILabel!
-    static let identifier = "HourlyCollectionViewCell"
+    
     
     func set(for item: HourlyWeatherItem) {
         hourLabel.text = item.hour
         weatherIconImageView.image = item.icon
         temperatureLabel.text = "\(item.temperature)°"
-        
     }
 }

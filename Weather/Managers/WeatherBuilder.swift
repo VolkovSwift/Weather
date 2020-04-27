@@ -9,7 +9,7 @@
 import UIKit
 
 
-class WeatherBuilder {
+final class WeatherBuilder {
     
     static let shared = WeatherBuilder()
     
@@ -59,14 +59,13 @@ class WeatherBuilder {
             let dailyWeatherItem = DailyWeatherItem(dayOfWeek: firstDate[key]!, iconName: firstIcon[key]!, maxTemperature: Int(maxTemperature[key]!), minTemperature: Int(minTemperature[key]!))
             dailyWeatherItems.append(dailyWeatherItem)
         }
-
+        
         dailyWeatherItems.sort(by: {(first, second) in
             first.dayOfWeek < second.dayOfWeek
         })
         dailyWeatherItems.remove(at: 0)
         return dailyWeatherItems
     }
-    
     
     
     func getDetailsWeather(for data: WeatherData) -> DetailsWeather {

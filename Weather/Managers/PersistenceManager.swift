@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 enum PersistenceManager {
     
     static private let defaults = UserDefaults.standard
@@ -17,9 +16,10 @@ enum PersistenceManager {
         static let locationsData = "locationsData"
     }
     
+    
     static func retrieveLocations(completed: @escaping (Result<LocationsData, ErrorMessage>) -> Void) {
         guard let locationsData = defaults.object(forKey: Keys.locationsData) as? Data else {
-            completed(.failure(.unableToRetrieve))
+            completed(.success(LocationsData()))
             return
         }
         
@@ -31,6 +31,7 @@ enum PersistenceManager {
             completed(.failure(.unableToRetrieve))
         }
     }
+    
     
     static func save(locationsData: LocationsData) {
         do {

@@ -9,20 +9,14 @@
 import UIKit
 
 
-class NetworkManager {
+final class NetworkManager {
     static let shared = NetworkManager()
-//    private let baseURL = "http://api.openweathermap.org/data/2.5/forecast?q=Minsk&appid=e570eb3a7803219ec896eb79d15dad73&units=metric"
-    //    private let baseURL = "http://api.openweathermap.org/data/2.5/forecast?lat=53.9&lon=27.56667&appid=e570eb3a7803219ec896eb79d15dad73&units=metric"
     
     private init() {}
     
-    //    func weatherFor(geo: CLLocationCoordinate2D)
-    
     func getWeather(location: Location, handler: @escaping(Result<WeatherData, ErrorMessage>) -> Void) {
         
-//        let baseURL = "http://api.openweathermap.org/data/2.5/forecast?q=\(city)&appid=e570eb3a7803219ec896eb79d15dad73&units=metric"
         let baseURL = "http://api.openweathermap.org/data/2.5/forecast?lat=\(location.latitude)&lon=\(location.longitude)&appid=e570eb3a7803219ec896eb79d15dad73&units=metric"
-//        let baseURL = "http://api.openweathermap.org/data/2.5/forecast?lat=53.9&lon=27.56667&appid=e570eb3a7803219ec896eb79d15dad73&units=metric"
         
         guard let url = URL(string: baseURL) else {
             handler(.failure(.invalidURL))
@@ -51,7 +45,6 @@ class NetworkManager {
                 let weatherData = try decoder.decode(WeatherData.self, from: data)
                 handler(.success(weatherData))
             } catch {
-                
                 handler(.failure(.invalidData))
             }
         }

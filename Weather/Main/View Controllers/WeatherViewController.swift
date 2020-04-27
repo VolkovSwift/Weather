@@ -8,9 +8,9 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 final class WeatherViewController: UIViewController {
-    
     
     //MARK: - Properties
     
@@ -37,18 +37,20 @@ final class WeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpDelegates()
+        configureDelegates()
         clearWeather()
+        configureBackground()
         getSavedLocations()
-        setUpLocationManager()
+        configureLocationManager()
         registerDailyTableViewCells()
-        //        view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
     }
     
     
     //MARK: - Main Methods
     
-    private func setUpDelegates() {
+
+    
+    private func configureDelegates() {
         hourlyCollectionView.dataSource = self
         dailyTableView.dataSource = self
         dailyTableView.delegate = self
@@ -64,7 +66,15 @@ final class WeatherViewController: UIViewController {
     }
     
     
-    private func setUpLocationManager() {
+    private func configureBackground () {
+        let backgroundImage  = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImage.image = UIImage(named: "background")
+        backgroundImage.contentMode = .scaleAspectFill
+        self.view.insertSubview(backgroundImage, at: 0)
+    }
+    
+    
+    private func configureLocationManager() {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
@@ -77,7 +87,7 @@ final class WeatherViewController: UIViewController {
             case .success(let locationsData):
                 self.locationsData = locationsData
             case .failure(let error):
-                self.presentAlert(message: error.rawValue)
+                print(error.rawValue)
             }
         }
     }
@@ -100,7 +110,9 @@ final class WeatherViewController: UIViewController {
                     self.configureUI()
                 }
             case .failure(let error):
-                self.presentAlert(message: error.rawValue)
+                DispatchQueue.main.async {
+                    self.presentAlert(message: error.rawValue)
+                }
             }
         }
     }
@@ -148,7 +160,7 @@ extension WeatherViewController: UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HourlyCollectionViewCell.identifier, for: indexPath) as! HourlyCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: HourlyCollectionViewCell.self), for: indexPath) as! HourlyCollectionViewCell
         
         let item  = hourlyWeatherItems[indexPath.row]
         cell.set(for: item)
@@ -224,9 +236,12 @@ extension WeatherViewController: CLLocationManagerDelegate {
                 
                 if error == nil, let placemark = placemark, !placemark.isEmpty {
                     guard let cityName = placemark[0].locality else {return}
-                    let currentLocation = Location(cityName: cityName, latitude: Double(currentLocation.coordinate.latitude), longitude: Double(currentLocation.coordinate.longitude))
-                    self.locationsData.locations.append(currentLocation)
-                    self.getWeatherData(location: currentLocation)
+                    let newLocation = Location(cityName: cityName, latitude: Double(currentLocation.coordinate.latitude), longitude: Double(currentLocation.coordinate.longitude))
+                    
+                    if !self.locationsData.locations.contains(where: {$0.cityName == newLocation.cityName}) {
+                        self.locationsData.locations.append(newLocation)
+                    }
+                    self.getWeatherData(location: newLocation)
                 }
             }
         }

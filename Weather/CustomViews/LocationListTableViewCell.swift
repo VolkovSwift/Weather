@@ -9,10 +9,10 @@
 import UIKit
 
 final class LocationListTableViewCell: UITableViewCell {
-
-    static let identifier = "LocationListTableViewCell"
     
-    @IBOutlet weak var locationNameLabel: UILabel!
-    
+    @IBOutlet private weak var locationNameLabel: UILabel!
 
+    func set(location: Location) {
+        locationNameLabel.text = location.cityName
+    }
 }

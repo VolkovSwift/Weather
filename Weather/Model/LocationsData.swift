@@ -10,13 +10,11 @@ import Foundation
 
 final class LocationsData: Codable {
     var locations:[Location] = []
-
 }
-
 
 struct Location: Codable {
     var cityName: String
     var latitude: Double
     var longitude: Double
-    }
+}
 
