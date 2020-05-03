@@ -12,6 +12,7 @@ final class LocationListTableViewCell: UITableViewCell {
     
     @IBOutlet private weak var locationNameLabel: UILabel!
 
+    
     func set(location: Location) {
         locationNameLabel.text = location.cityName
     }

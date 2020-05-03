@@ -10,12 +10,13 @@ import UIKit
 
 final class DailyTableViewCell: UITableViewCell {
 
-    static let identifier = "DailyTableViewCell"
     static let height:CGFloat = 44
+    
     
     @IBOutlet private weak var dayOfWeekLabel: UILabel!
     @IBOutlet private weak var weatherIconImageView: UIImageView!
     @IBOutlet private weak var maxMinTemperature: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,11 +25,6 @@ final class DailyTableViewCell: UITableViewCell {
         backgroundColor = .clear
         dayOfWeekLabel.textColor = .white
         maxMinTemperature.textColor = .white
-        
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
     }
     
     
@@ -36,6 +32,5 @@ final class DailyTableViewCell: UITableViewCell {
         dayOfWeekLabel.text = item.dayOfWeek.getDayOfWeek()
         weatherIconImageView.image = UIImage(named: item.iconName)
         maxMinTemperature.text = "\(item.temperatureText)"
-        
     }
 }

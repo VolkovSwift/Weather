@@ -151,9 +151,9 @@
 		CED6265724476BAD00181CCE = {
 			isa = PBXGroup;
 			children = (
-				CED6266224476BAD00181CCE /* Weather */,
-				CED6266124476BAD00181CCE /* Products */,
 				CE5FD89024509628005AAC88 /* Frameworks */,
+				CED6266124476BAD00181CCE /* Products */,
+				CED6266224476BAD00181CCE /* Weather */,
 			);
 			sourceTree = "<group>";
 		};
@@ -471,6 +471,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8392B7X4JB;
 				INFOPLIST_FILE = Weather/Support/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -489,6 +490,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8392B7X4JB;
 				INFOPLIST_FILE = Weather/Support/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

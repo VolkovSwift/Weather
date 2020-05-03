@@ -15,6 +15,7 @@ extension Date {
         return formatter.string(from: self)
     }
     
+    
     func getHour() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "ha"

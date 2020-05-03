@@ -16,7 +16,6 @@ final class LocationListVC: UITableViewController {
     var locationsData = LocationsData()
     
     
-    
     //MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
@@ -44,11 +43,10 @@ final class LocationListVC: UITableViewController {
     
     private func configureViewController() {
         title = "Locations"
-        //        view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
-        
     }
+    
     
     // MARK: - Table view data source & UITableViewDelegate
     

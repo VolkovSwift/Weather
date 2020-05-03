@@ -10,13 +10,14 @@ import UIKit
 
 final class DetailsTableViewCell: UITableViewCell {
     
-    static let identifier = "DetailsTableViewCell"
     static let height: CGFloat = 90
+    
     
     @IBOutlet private weak var leftTitleLabel: UILabel!
     @IBOutlet private weak var leftValueLabel: UILabel!
     @IBOutlet private weak var rightTitleLabel: UILabel!
     @IBOutlet private weak var rightValueLabel: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,5 +39,4 @@ final class DetailsTableViewCell: UITableViewCell {
         self.rightTitleLabel.text = right.title
         self.rightValueLabel.text = right.value
     }
-    
 }

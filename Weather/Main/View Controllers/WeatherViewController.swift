@@ -18,7 +18,7 @@ final class WeatherViewController: UIViewController {
     private var currentWeather:CurrentWeather?
     private var hourlyWeatherItems: [HourlyWeatherItem] = []
     private var dailyWeatherItems:[DailyWeatherItem] = []
-    private var detailsWeather: DetailsWeather!
+    private var detailsWeather: DetailsWeather?
     private var locationsData = LocationsData()
     private var locationManager = CLLocationManager()
     
@@ -47,8 +47,6 @@ final class WeatherViewController: UIViewController {
     
     
     //MARK: - Main Methods
-    
-
     
     private func configureDelegates() {
         hourlyCollectionView.dataSource = self
@@ -124,15 +122,14 @@ final class WeatherViewController: UIViewController {
         conditionLabel.text = currentWeather.description
         temperatureLabel.text = currentWeather.temperature
         dayOfWeekLabel.text = currentWeather.dayOfWeek
-        
     }
     
     
     private func registerDailyTableViewCells() {
-        let dailyTableViewCellNib = UINib(nibName: DailyTableViewCell.identifier, bundle: nil)
-        dailyTableView.register(dailyTableViewCellNib, forCellReuseIdentifier: DailyTableViewCell.identifier)
-        let detailsTableViewCell = UINib(nibName: DetailsTableViewCell.identifier, bundle: nil)
-        dailyTableView.register(detailsTableViewCell, forCellReuseIdentifier: DetailsTableViewCell.identifier)
+        let dailyTableViewCellNib = UINib(nibName: String(describing: DailyTableViewCell.self), bundle: nil)
+        dailyTableView.register(dailyTableViewCellNib, forCellReuseIdentifier: String(describing: DailyTableViewCell.self))
+        let detailsTableViewCell = UINib(nibName: String(describing: DetailsTableViewCell.self), bundle: nil)
+        dailyTableView.register(detailsTableViewCell, forCellReuseIdentifier: String(describing: DetailsTableViewCell.self))
     }
     
     
@@ -161,7 +158,6 @@ extension WeatherViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: HourlyCollectionViewCell.self), for: indexPath) as! HourlyCollectionViewCell
-        
         let item  = hourlyWeatherItems[indexPath.row]
         cell.set(for: item)
         return cell
@@ -198,15 +194,15 @@ extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
         
         switch section {
         case .daily:
-            let cell = tableView.dequeueReusableCell(withIdentifier: DailyTableViewCell.identifier, for: indexPath) as! DailyTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DailyTableViewCell.self), for: indexPath) as! DailyTableViewCell
             let weatherItem = dailyWeatherItems[indexPath.row]
             cell.set(for: weatherItem)
             return cell
             
         case .detail:
-            let cell = tableView.dequeueReusableCell(withIdentifier: DetailsTableViewCell.identifier, for: indexPath) as! DetailsTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailsTableViewCell.self), for: indexPath) as! DetailsTableViewCell
             
-            let weatherPair = detailsWeather.getDetailWeather(at: indexPath.row)
+            let weatherPair = detailsWeather!.getDetailWeather(at: indexPath.row)
             cell.setWeatherData(using: weatherPair)
             return cell
         }
